@@ -1,0 +1,1 @@
+This proyect is a recreation of the famous board game "Snakes & Ladders" implementing recursion and linked lists. The user is able to assign a set amount of tiles to the board and a custom number of ladders and snakes. The user is also able to play the game with a simple interface that tracks changes around the board, the game ends when a player reaches the end.
