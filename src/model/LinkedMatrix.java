@@ -9,7 +9,7 @@ public class LinkedMatrix {
 		numRows=n;
 		numCols=m;
 		createMatrix(n,m);
-		fill(n,m);
+		fill();
 	}
 	
 	public void createMatrix(int n, int m) {
@@ -30,7 +30,7 @@ public class LinkedMatrix {
 	private void createCol(int i, int j, Node prev, Node rowPrev) {
 		if(j<numCols) {
 			Node current = new Node(i,j);
-			current.setPrev(current);
+			current.setPrev(prev);
 			prev.setNext(current);
 			
 			if(rowPrev != null) {
@@ -66,31 +66,43 @@ public class LinkedMatrix {
 		return msg;
 	}
 	
-	public void fill(int row, int col) {
-		first.setValue(1);
-		fillRow(first,1,row,col);
-		
-	}
-	
-	public void fillRow(Node currentRow,int value, int row, int col) {
-		if(currentRow!=null) {
-			if(row+1>numRows) {
-				fillCol(currentRow.getDown(),value,row,col);
+	public void fill() {
+		int RL = 1;
+		Node current = first;
+		int value = 1;
+		int row=0;
+		int col=0;
+		while(current!=null) {
+			if(RL==1) {
+				
+				current.setValue(value);
+				value++;
+				col++;
+				
+				if(col==numCols){
+					RL=2;
+					current = current.getDown();
+					row++;
+				}else {
+					current = current.getNext();
+				}
+			}else if(RL==2){
+				current.setValue(value);
+				value++;
+				col--;
+				if(col==0) {
+					RL=1;
+					current = current.getDown();
+					row++;
+				}else {
+					current = current.getPrev();
+				}
+			}else if(row==numRows && col==numCols){
+				break;
 			}
-			currentRow.setValue(value++);
-			fillCol(currentRow.getNext(),value,row,col);
+			
 		}
 	}
-	
-	public void fillCol(Node currentCol, int value, int row, int col) {
-		if(col<numCols) {
-			currentCol.setValue(value++);
-			fillCol(currentCol.getPrev(),value,row,col);
-		}
-		if(currentCol!=null) {
-			currentCol.setValue(value++);	
-			fillCol(currentCol.getNext(),value,row,col);
-		}
-	}
+
 }
 
